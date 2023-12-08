@@ -4,7 +4,7 @@
 participant Source as "Source System"
 
 box "Integration platform" #LightGray
-participant AGW as "API Gateway"
+participant AGW as "API Management"
 end box
 
 participant Target as "Target System"
@@ -24,7 +24,7 @@ Source <-- AGW
 participant Source as "Source System"
 
 box "Integration platform" #LightGray
-participant AGW as "API Gateway"
+participant AGW as "API Management"
 participant Func as "Logic App / Function"
 end box
 
@@ -51,7 +51,7 @@ Source <-- AGW
 participant Source as "Source System"
 
 box "Integration platform" #LightGray
-participant AGW as "API Gateway"
+participant AGW as "API Management"
 participant Function as "Logic App / Function"
 participant Storage
 end box
@@ -108,7 +108,7 @@ Target2 <-- SB
 participant Source as "Source System"
 
 box "Integration platform" #LightGray
-participant AGW as "API Gateway"
+participant AGW as "API Management"
 participant SB as "Service Bus"
 end box
 
@@ -160,7 +160,7 @@ participant Source as "Source System"
 participant Folder as "Folder"
 
 box "Integration platform" #LightGray
-participant AGW as "API Gateway"
+participant AGW as "API Management"
 participant LA as "Logic App"
 participant Storage as "Storage*"
 end box
@@ -171,49 +171,12 @@ Source -> Folder: Place file
 Folder -> LA: Trigger
 LA -> LA: Transform
 LA -> Storage: Persist
-LA -> AGW: Trigger(FileId)
-AGW -/ Target: Trigger(FileId)
-Target -> AGW: GET (FileId)
-AGW -> Storage: GET (FileId)
+LA -> AGW: Trigger(File Id)
+AGW -/ Target: Trigger(File Id)
+Target -> AGW: GET (File Id)
+AGW -> Storage: GET (File Id)
 AGW <-- Storage
 Target <-- AGW
-
-@enduml
-
-############################################
-
-@startuml File Transfer ONVZ Dataplatform
-!include ./styling.puml
-
-participant Source as "Source\nSystem"
-participant Folder as "FTP\nFolder"
-
-box "Integration platform" #LightGray
-participant LA as "Logic App /\nMFT"
-end box
-
-box "Data platform" #LightSteelBlue
-participant Landing as "Data HUB\nLanding"
-participant Synapse as "Azure\nSynapse"
-participant Staging as "Data HUB\nStaging"
-end box
-
-Source -> Folder: Place file
-Folder -> LA: Trigger
-
-alt Parquet formaat
-    LA -> Staging: Persisteer
-end
-
-alt Geen Parquet formaat
-    LA -> Landing: Persisteer
-    Landing -> Synapse: Trigger
-    opt Transformatie nodig
-        Synapse -> Synapse: Transformeer
-    end
-    Synapse -> Synapse: Converteer naar Parquet
-    Synapse -> Staging: Persisteer
-end
 
 @enduml
 
@@ -225,7 +188,7 @@ end
 participant System1 as "System 1"
 
 box "Integration platform" #LightGray
-participant AGW as "API Gateway"
+participant AGW as "API Management"
 participant LA as "Logic App"
 end box
 
@@ -264,7 +227,7 @@ LA <-- AGW
 participant System1 as "System 1"
 
 box "Integration platform" #LightGray
-participant AGW as "API Gateway"
+participant AGW as "API Management"
 participant SB as "Service Bus"
 end box
 
@@ -296,7 +259,7 @@ System1 -> SB: Publish(ProcessDone)
 participant Source as "Source System"
 
 box "Integration platform" #LightGray
-participant AGW as "API Gateway"
+participant AGW as "API Management"
 participant Adapter as "API Adapter"
 end box
 
